@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<!-- Plain-English guide to JustVugg/colibri README, upstream a8f2ca623ffe9de9df11d56f34d11d2d501493d3. Original README and source preserved in this checkout. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Colibrì, explained simply. Learn how to run large AI models on your own hardware, choose a model, get started, and explore the research.">
+<meta name="theme-color" content="#18775d">
+<title>Colibrì — Tiny engine, immense model</title>
+<link rel="icon" type="image/svg+xml" href="assets/colibri-icon.svg">
+<style>:root{--bg:#fff;--sidebar:#f8faf9;--ink:#172c29;--muted:#65736f;--faint:#617166;--line:#e4eae7;--green:#18775d;--mint:#edf6f1;--code:#142a26;--radius:12px;--mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:96px}body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}a{color:var(--green);text-decoration:none}a:hover{text-decoration:underline}button,input{font:inherit}button{cursor:pointer}button,a,input{ -webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #37a984;outline-offset:4px}button{color:inherit}svg{vertical-align:middle;flex-shrink:0}::selection{background:#d6eddf}header{height:72px;position:fixed;inset:0 0 auto;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line);z-index:40;display:flex;align-items:center;padding:0 32px 0 27px;gap:24px}.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-size:26px;font-weight:750;letter-spacing:-1px;width:205px;flex-shrink:0}.brand:hover{text-decoration:none}.brand img{width:33px;height:33px;border-radius:9px}.brand .dot{color:var(--green)}.header-divider{height:23px;border-left:1px solid var(--line)}.header-caption{color:var(--muted);font-size:13px}.header-links{margin-left:auto;display:flex;align-items:center;gap:25px;font-size:13px;font-weight:600}.header-links a{color:#44534d}.github-link{display:flex;align-items:center;gap:8px}.github-link span{color:var(--faint);margin-left:7px}.mobile-toggle{display:none;border:1px solid var(--line);border-radius:7px;background:white;width:37px;height:37px}.sidebar{position:fixed;top:72px;bottom:0;left:0;width:248px;background:var(--sidebar);border-right:1px solid var(--line);padding:29px 19px 20px;display:flex;flex-direction:column;z-index:35;overflow:auto}.search-trigger{display:flex;align-items:center;gap:9px;background:white;border:1px solid #dde5df;border-radius:7px;padding:9px 10px;color:#718078;width:100%;font-size:12px;box-shadow:0 2px 2px #173e2410}.search-trigger kbd{margin-left:auto;border:1px solid var(--line);border-radius:3px;font-size:10px;padding:0 4px;background:#fafbfa}.nav-label{font-size:10px;font-weight:700;color:#929c97;letter-spacing:1.5px;margin:28px 12px 10px}.nav-link{display:flex;align-items:center;gap:12px;color:#64716a;padding:9px 12px;margin:2px 0;font-size:13px;border-radius:6px;position:relative;line-height:1.5}.nav-link:hover{background:#eef3ef;text-decoration:none}.nav-link svg{width:16px;height:16px;opacity:.8}.nav-link.active{color:var(--green);background:#e8f1eb;font-weight:650}.nav-link.active:before{content:"";position:absolute;width:3px;height:15px;background:var(--green);border-radius:3px;left:-19px}.nav-bottom{margin-top:auto;padding-top:30px}.sidebar-card{border:1px solid var(--line);background:#fff;border-radius:9px;padding:15px;margin:15px 0 0}.sidebar-card .small-title{font-size:12px;font-weight:650;display:block}.sidebar-card p{font-size:11px;line-height:1.6;color:var(--muted);margin:5px 0 9px}.sidebar-card a{font-size:11px;font-weight:650}.sidebar-foot{display:flex;align-items:center;gap:7px;font-size:10px;color:#8a968e;padding:16px 5px 0}.status-dot{width:6px;height:6px;display:inline-block;border-radius:50%;background:#2a9875}.layout{margin-left:248px;padding-top:72px}main{max-width:1250px;margin:0 auto;padding:36px 54px 0;min-width:0}.breadcrumb{display:flex;align-items:center;gap:10px;color:#8b9690;font-size:11px;margin-bottom:33px}.breadcrumb span:last-child{color:#52635a}.hero{display:grid;grid-template-columns:1.18fr 1fr;gap:36px;align-items:center;padding-bottom:34px}.eyebrow{font-size:10px;letter-spacing:1.8px;font-weight:700;display:flex;align-items:center;gap:7px;color:var(--green);margin-bottom:20px}.eyebrow .status-dot{box-shadow:0 0 0 3px #e5f2e9;width:5px;height:5px}h1{font-size:clamp(40px,4.1vw,62px);line-height:1.09;letter-spacing:-2.8px;margin:0 0 20px;font-weight:720}h1 span{color:var(--green)}.hero-text{font-size:15px;line-height:1.85;color:#66736c;max-width:460px;margin:0 0 23px}.hero-text strong{font-weight:600;color:#364d41}.hero-buttons{display:flex;align-items:center;gap:10px}.button{display:inline-flex;align-items:center;justify-content:center;gap:16px;padding:9px 17px;border:1px solid var(--line);border-radius:6px;font-weight:600;font-size:12px;color:#405448;background:white;transition:transform .15s,background .15s}.button:hover{background:#f7faf7;text-decoration:none;transform:translateY(-1px)}.button.primary{background:var(--green);border-color:var(--green);color:white;box-shadow:0 2px 3px #10382915}.button.primary:hover{background:#105e48}.hero-footnote{font-size:10px;color:#8d9791;display:flex;align-items:center;gap:7px;margin:14px 0 0}.hierarchy{background:radial-gradient(circle,#c3d9cb 1px,transparent 1px),linear-gradient(140deg,#f5faf6,#edf5ef);background-size:14px 14px,100% 100%;border:1px solid #e3ece3;border-radius:14px;min-height:304px;padding:22px 26px 18px;position:relative;overflow:hidden}.diagram-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;color:#799081;font:9px var(--mono);letter-spacing:1px}.diagram-top span:first-child{border:1px solid #d6e5d9;border-radius:4px;background:#f7fbf8;padding:3px 7px}.memory-tier{margin:0 auto;background:#fff;border:1px solid #cfded2;border-radius:8px;box-shadow:0 4px 0 #dce8df,0 8px 14px #2448310a;display:flex;align-items:center;gap:12px;padding:10px 14px;position:relative;width:100%;height:53px}.memory-tier.fast{width:76%;background:#e3f0e7;border-color:#b7d0bc}.memory-tier.middle{width:88%}.memory-tier.bottom{background:#f8faf8}.tier-icon{width:28px;height:28px;display:grid;place-items:center;color:var(--green);border:1px solid #c9ddcd;border-radius:6px;background:#f5faf5}.tier-title{font-size:12px;font-weight:700;line-height:1.5}.tier-sub{font-size:9px;color:#8a988e;line-height:1.5}.tier-cap{margin-left:auto;font:9px var(--mono);color:#607c68}.connector{height:18px;position:relative;text-align:center;color:#89a992;font-size:14px;line-height:18px}.connector:before{content:"";position:absolute;top:3px;bottom:3px;border-left:1px dashed #96b49c;left:50%}.diagram-caption{display:flex;align-items:center;justify-content:center;gap:6px;font-size:9px;color:#6b8472;margin-top:17px}.diagram-caption svg{width:11px;height:11px}.stat-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0;margin:0 0 32px}.stat{padding:0 25px;border-right:1px solid var(--line)}.stat:first-child{padding-left:0}.stat:last-child{border:0}.stat strong{display:block;font-size:24px;font-weight:650;letter-spacing:-.8px;line-height:1.2}.stat strong span{font-size:13px;font-weight:450;color:#8a978d;letter-spacing:0}.stat p{font-size:10px;color:#869189;margin:6px 0 0}.intro-heading{display:flex;align-items:center;gap:8px;margin-bottom:17px}.intro-heading h2{font-size:17px;letter-spacing:-.4px;font-weight:650;margin:0}.intro-heading .pill{font-size:9px;font-weight:500;border:1px solid var(--line);border-radius:20px;padding:1px 7px;color:#7e8b83;margin-left:auto}.intro-copy{font-size:13px;color:var(--muted);margin:0 0 20px;max-width:760px}.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.feature-card{border:1px solid var(--line);border-radius:9px;padding:20px 18px 17px;background:linear-gradient(140deg,#fff,#fcfdfc)}.feature-icon{width:29px;height:29px;display:grid;place-items:center;background:#edf5ef;border:1px solid #e2ece4;border-radius:7px;margin-bottom:12px;color:var(--green)}.feature-icon svg{width:15px;height:15px}.feature-card h3{font-size:12px;margin:0 0 5px;letter-spacing:0}.feature-card p{font-size:11px;line-height:1.75;color:#7a877e;margin:0}.reading-note{font-size:10px;color:#8b968e;margin:17px 0 0;display:flex;align-items:center;gap:7px}.reading-note a{color:#5e6e63;text-decoration:underline;text-underline-offset:3px}.section{padding:44px 0;border-bottom:1px solid var(--line);scroll-margin-top:0}.section>h2{font-size:29px;font-weight:650;letter-spacing:-1px;margin:0 0 18px;line-height:1.3}.section>h2:before{content:attr(data-number);display:block;color:var(--green);font-size:10px;letter-spacing:1.5px;font-weight:650;margin-bottom:10px}.section h3{font-size:18px;letter-spacing:-.35px;font-weight:650;margin:29px 0 12px;line-height:1.5}.section h4{font-size:15px;margin:8px 0}.section p,.section li{font-size:14px;color:#5c6e63;line-height:1.85}.section p{margin:12px 0}.section strong{color:#2e4538;font-weight:650}.section a{text-underline-offset:3px}.section a:hover{text-decoration:underline}.section ul,.section ol{padding-left:22px}.section li{padding-left:4px;margin-bottom:8px}.section code{font-family:var(--mono);font-size:.86em;background:#f0f4f0;border:1px solid #e6ece6;border-radius:4px;padding:2px 5px;color:#39634b;overflow-wrap:anywhere}.code-block{background:var(--code);border:1px solid #29463b;border-radius:9px;margin:20px 0;overflow:hidden}.code-toolbar{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ffffff12;color:#94aea0;font:10px var(--mono);padding:9px 15px}.copy-button{background:#ffffff08;border:1px solid #ffffff1a;color:#bed0c4;border-radius:4px;font:10px var(--mono);padding:3px 8px;display:flex;align-items:center;gap:5px}.copy-button:hover{background:#ffffff18}.copy-button svg{width:11px;height:11px}pre{margin:0;padding:19px 20px;overflow-x:auto;tab-size:2;line-height:1.9;font-size:12px}pre code,.section pre code{background:none;border:none;padding:0;color:#d5e4d8;font:inherit;overflow-wrap:normal}pre .code-comment{color:#83a591}.callout{padding:17px 20px;border:1px solid #d9e8dd;border-left:3px solid #5b9f74;border-radius:6px;background:#f4f9f4;margin:22px 0;font-size:13px}.callout strong{font-size:13px}.callout p{font-size:12px;margin:5px 0;line-height:1.8}.warning{border-color:#e8ddc7;border-left-color:#c2a264;background:#fffcf5}.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px;margin:20px 0;max-width:100%}table{border-collapse:collapse;width:100%;font-size:12px;line-height:1.75;text-align:left}th{background:#f5f8f5;color:#5e6e63;font-weight:600;font-size:10px;letter-spacing:.4px;white-space:nowrap}td,th{padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top}td{min-width:130px;color:#5f7064}td:first-child{color:#304c3a;font-weight:500}tr:last-child td{border-bottom:0}tr:hover td{background:#fbfdfb}.explain-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:24px 0}.explain-grid>div{border:1px solid var(--line);border-radius:9px;padding:20px}.tier-label{font:9px var(--mono);color:var(--green);letter-spacing:1px}.explain-grid p{font-size:12px;margin:0}.flow{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:20px 0}.flow>div{padding:17px 13px;border-right:1px solid var(--line)}.flow>div:last-child{border:0}.flow b{display:block;font:10px var(--mono);color:#86a08a;margin-bottom:7px}.flow strong{font-size:12px;display:block}.flow span{font-size:10px;display:block;color:#87968a;line-height:1.6;margin-top:4px}.benchmark-list{border:1px solid var(--line);border-radius:10px;padding:0 22px;margin:22px 0}.benchmark-list>div{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0;border-bottom:1px solid var(--line)}.benchmark-list>div:last-child{border:0}.benchmark-list strong{display:block;font-size:13px}.benchmark-list small{display:block;color:#89958d;font-size:11px}.benchmark-list b{font-size:23px;white-space:nowrap;color:var(--green);font-weight:600;letter-spacing:-.7px}.benchmark-list b small{display:inline;font-size:11px;font-weight:450;letter-spacing:0}.showcase{margin-top:39px;border-top:1px solid var(--line);padding-top:32px}.showcase-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:17px}.showcase h2{font-size:17px;letter-spacing:-.4px;margin:0}.showcase .command{font:10px var(--mono);background:#f2f6f2;border:1px solid var(--line);padding:3px 8px;border-radius:4px;color:#758d7b}.tabs{display:flex;gap:6px;margin-bottom:12px}.tab{border:1px solid transparent;background:transparent;color:#859089;font-size:11px;padding:6px 12px;border-radius:5px}.tab[aria-selected=true]{border-color:#dbe7dc;background:#eff6f0;color:#2e6645;font-weight:600}.tab:hover{background:#f1f5f2}.screenshot{width:100%;height:auto;border-radius:10px;display:block;border:1px solid #264333;background:#0a1210}.figure{margin:0}.figure figcaption{font-size:11px;line-height:1.8;color:#7b8c7f;margin:12px 0}.figure figcaption strong{font-weight:600;color:#516e5a}[hidden]{display:none!important}.footer{padding:29px 0 40px;display:flex;align-items:center;justify-content:space-between;gap:20px;color:#839286;font-size:11px}.footer a{color:#5d7765}.footer-left{display:flex;align-items:center;gap:9px}.footer img{width:20px;height:20px;border-radius:5px}.top-link{display:flex;align-items:center;gap:6px}.skip-link{position:fixed;top:-80px;left:20px;background:var(--green);color:white;padding:10px 20px;z-index:100;border-radius:6px}.skip-link:focus{top:12px}.menu-scrim{display:none}.search-dialog{border:1px solid var(--line);border-radius:14px;padding:0;width:600px;max-width:calc(100% - 32px);margin:12vh auto;box-shadow:0 20px 100px #122b3540;max-height:75vh;color:var(--ink)}.search-dialog::backdrop{background:#10291c55;backdrop-filter:blur(4px)}.search-input-row{display:flex;align-items:center;gap:12px;padding:18px;border-bottom:1px solid var(--line)}.search-input-row input{border:0;outline:0!important;box-shadow:none;min-width:0;width:100%;background:transparent;font-size:15px}.close-search{font-size:10px;border:1px solid var(--line);border-radius:4px;background:#f8faf8;padding:3px 6px;color:var(--muted)}.search-results{max-height:50vh;overflow:auto;padding:9px}.search-result{display:block;padding:12px;border-radius:7px;color:var(--ink)}.search-result:hover,.search-result:focus{background:var(--mint);text-decoration:none}.search-result strong{font-size:13px;display:block}.search-result span{font-size:11px;color:var(--muted);display:block;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.search-empty{padding:20px;color:var(--muted);font-size:13px}.search-footer{font-size:10px;color:var(--faint);background:#fafcf9;border-top:1px solid var(--line);padding:10px 20px}.live-region{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.scroll-progress{position:fixed;top:71px;left:248px;height:2px;background:#71b490;z-index:45;width:0;transition:width .1s}
+/* Muted text still meets readable contrast on pale surfaces. */
+.search-trigger,.nav-label,.sidebar-foot,.breadcrumb,.hero-footnote,.diagram-top,.tier-sub,.tier-cap,.diagram-caption,.stat strong span,.stat p,.intro-heading .pill,.feature-card p,.reading-note,.flow b,.flow span,.benchmark-list small,.showcase .command,.tab,.figure figcaption,.footer,.search-footer{color:#5e6e63}
+.section a,.figure figcaption a{text-decoration:underline;text-underline-offset:3px;text-decoration-color:#a4c3ae}.section a:hover,.figure figcaption a:hover{text-decoration-color:currentColor}
+@media(min-width:1600px){main{padding-left:72px;padding-right:72px}.hero{gap:65px}}
+@media(max-width:1150px){.sidebar{width:218px}.brand{width:175px}.layout{margin-left:218px}.scroll-progress{left:218px}main{padding:30px 32px 0}.hero{gap:24px}h1{font-size:47px}.hierarchy{padding:20px 17px}.header-caption{display:none}.hero-text{font-size:14px}.stat{padding:0 18px}.hero-buttons{gap:8px}.button{padding:9px 12px;gap:10px}}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.hierarchy{display:none}h1{font-size:54px}.hero-text{max-width:570px}.feature-grid{gap:9px}.feature-card{padding:15px 12px}.stat{padding:0 13px}.stat strong{font-size:22px}.flow{grid-template-columns:repeat(3,1fr)}.flow>div{border-bottom:1px solid var(--line)}}
+@media(max-width:700px){header{height:63px;padding:0 18px;gap:13px}.brand{width:auto;font-size:23px;gap:8px}.brand img{width:29px;height:29px}.header-divider{display:none}.header-links{gap:12px;font-size:11px}.header-links .community-top,.github-link span{display:none}.mobile-toggle{display:block;margin-left:0;order:-1}.sidebar{top:63px;width:248px;transform:translateX(-100%);transition:transform .2s}.sidebar.open{transform:translateX(0)}.menu-scrim.open{display:block;position:fixed;inset:63px 0 0;background:#10291c55;z-index:30;border:0;width:100%}.layout{margin-left:0;padding-top:63px}main{padding:25px 22px 0}.breadcrumb{margin-bottom:27px;font-size:10px}.hero{padding-bottom:28px}.eyebrow{font-size:9px;margin-bottom:17px}h1{font-size:49px;letter-spacing:-2.4px}.hero-text{font-size:14px;max-width:500px}.hero-footnote{font-size:10px}.stat-strip{grid-template-columns:repeat(2,1fr);row-gap:20px;padding:19px 0;margin-bottom:26px}.stat:nth-child(2){border-right:0}.stat:nth-child(3){padding-left:0}.stat{padding:0 11px}.stat strong{font-size:21px}.stat strong span{font-size:10px}.stat p{font-size:9px;line-height:1.6;margin-top:5px}.intro-heading h2{font-size:16px}.intro-heading .pill{font-size:8px}.feature-grid{grid-template-columns:1fr;gap:9px}.feature-card{padding:15px;display:grid;grid-template-columns:32px 1fr;gap:0 13px}.feature-icon{grid-row:1 / 3;margin:0}.feature-card h3{font-size:12px}.feature-card p{font-size:11px}.reading-note{align-items:flex-start;line-height:1.8}.reading-note svg{margin-top:4px}.section{padding:34px 0}.section>h2{font-size:25px}.section h3{font-size:17px}.section p,.section li{font-size:13px}.explain-grid{grid-template-columns:1fr;gap:10px}.flow{grid-template-columns:repeat(2,1fr)}.flow>div:last-child{grid-column:span 2}.benchmark-list{padding:0 14px}.benchmark-list b{font-size:20px}.benchmark-list strong{font-size:11px}.benchmark-list small{font-size:10px}.showcase-heading{align-items:flex-start}.showcase h2{font-size:16px}.showcase .command{font-size:9px;white-space:nowrap}pre{font-size:11px;padding:15px}td,th{padding:10px 12px}.footer{align-items:flex-start;font-size:10px}.scroll-progress{left:0;top:62px}.search-dialog{margin:9vh auto}.table-wrap{border-radius:6px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+@media print{header,.sidebar,.hero-buttons,.search-dialog,.scroll-progress,.copy-button,.tabs,.skip-link,.top-link{display:none!important}.layout{margin:0;padding:0}main{padding:0;max-width:none}.section{break-inside:auto}h2,h3{break-after:avoid}a{color:inherit;text-decoration:underline}.table-wrap,pre{overflow:visible}pre{white-space:pre-wrap}.code-block{background:#f4f4f4}.code-block code{color:#222}.code-toolbar{color:#333}.hierarchy{display:none}.hero{display:block}.feature-grid{display:block}.feature-card{margin:10px 0}.table-wrap table{font-size:9px}td{min-width:0}.section{padding:20px 0}.section h2{font-size:23px}}
+</style>
+<noscript><style>.search-trigger,.mobile-toggle,.copy-button,.tabs{display:none}@media(max-width:700px){.sidebar{position:static;transform:none;width:auto;margin-top:63px;max-height:none}.sidebar .nav-bottom{display:none}.sidebar nav{display:grid;grid-template-columns:1fr 1fr}.nav-label{grid-column:span 2}.layout{padding-top:0}}.figure{margin-bottom:25px}</style></noscript>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header>
+<a href="#overview" class="brand" aria-label="Colibrì home"><img src="assets/colibri-icon.svg" alt="" width="33" height="33">colibrì<span class="dot">.</span></a>
+<div class="header-divider"></div><span class="header-caption">Tiny engine, immense model.</span>
+<div class="header-links"><a class="community-top" href="https://discord.gg/RXV83nSZdk">Community <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h7v7M10 14 21 3M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/></svg></a><a class="github-link" href="https://github.com/JustVugg/colibri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4 1-4-2-6-2m12 5v-4a3.5 3.5 0 0 0-1-2.7c3.3-.4 6.7-1.6 6.7-7.3a5.7 5.7 0 0 0-1.5-4 5.3 5.3 0 0 0-.1-4S17.9-.4 15 1.5a13.4 13.4 0 0 0-6 0C6.1-.4 4.9 0 4.9 0a5.3 5.3 0 0 0-.1 4A5.7 5.7 0 0 0 3.3 8c0 5.7 3.4 6.9 6.7 7.3A3.5 3.5 0 0 0 9 18v4"/></svg> GitHub <span>↗</span></a></div>
+<button id="menu-button" class="mobile-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+</header>
+<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+<aside class="sidebar" id="sidebar">
+<button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg> Search the guide <kbd>⌘ K</kbd></button>
+<nav aria-label="Guide sections"><div class="nav-label">EXPLORE COLIBRÌ</div><a class="nav-link active" href="#overview" aria-current="location"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Overview</span></a><a class="nav-link" href="#how-it-works"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 10 5-10 5L2 8Z"/><path d="m2 12 10 5 10-5M2 16l10 5 10-5"/></svg><span>How it works</span></a><a class="nav-link" href="#get-started"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 10-12h-7Z"/></svg><span>Get started</span></a><a class="nav-link" href="#supported-models"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5v9l-9 5-9-5V8Z"/><path d="m3 8 9 5 9-5M12 13v9M7.5 5.5l9 5"/></svg><span>Supported models</span></a><a class="nav-link" href="#performance"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3v17h17M8 15l4-5 4 2 5-7"/></svg><span>Performance</span></a><div class="nav-label">GO A LITTLE DEEPER</div><a class="nav-link" href="#research"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v7l-6 9a1.2 1.2 0 0 0 1 2h14a1.2 1.2 0 0 0 1-2l-6-9V3M7 15h10"/></svg><span>Research & experiments</span></a><a class="nav-link" href="#advanced-techniques"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3v5m0 4v9M12 3v10m0 4v4M19 3v3m0 4v11"/><path d="M2 8h6v4H2ZM9 13h6v4H9ZM16 6h6v4h-6Z"/></svg><span>Advanced techniques</span></a><a class="nav-link" href="#deepseek-v4"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg><span>DeepSeek V4</span></a><a class="nav-link" href="#reference"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5c-4-3-8-2-10-1v16c3-2 7-2 10 0 3-2 7-2 10 0V4c-2-1-6-2-10 1Zm0 0v15"/></svg><span>Reference & guides</span></a><a class="nav-link" href="#community"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 4v3"/></svg><span>Community & credits</span></a></nav>
+<div class="nav-bottom"><div class="sidebar-card"><span class="small-title">Open source. Open possibilities.</span><p>Built in the open, for the hardware you already have.</p><a href="https://github.com/JustVugg/colibri">Star the project <span aria-hidden="true">↗</span></a></div>
+<div class="sidebar-foot"><span class="status-dot"></span> Apache 2.0 <span aria-hidden="true">·</span> Made for local AI</div></div>
+</aside>
+<button id="menu-scrim" class="menu-scrim" aria-label="Close navigation" tabindex="-1"></button>
+<div class="layout"><main id="main" tabindex="-1">
+<section id="overview" aria-labelledby="hero-title">
+<div class="breadcrumb">Documentation <span aria-hidden="true">/</span> <span>The plain-English guide</span></div>
+<div class="hero">
+<div><div class="eyebrow"><span class="status-dot"></span> SMALL ENGINE. BIG POSSIBILITIES.</div>
+<h1 id="hero-title">Tiny engine.<br><span>Immense model.</span></h1>
+<p class="hero-text">Run powerful AI models on <strong>your own hardware.</strong> Colibrì makes your storage, RAM, and GPU memory work together—so a big model doesn't need a big-budget machine.</p>
+<div class="hero-buttons"><a class="button primary" href="#get-started">Get started <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a><a class="button" href="https://github.com/JustVugg/colibri"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4 1-4-2-6-2m12 5v-4a3.5 3.5 0 0 0-1-2.7c3.3-.4 6.7-1.6 6.7-7.3a5.7 5.7 0 0 0-1.5-4 5.3 5.3 0 0 0-.1-4S17.9-.4 15 1.5a13.4 13.4 0 0 0-6 0C6.1-.4 4.9 0 4.9 0a5.3 5.3 0 0 0-.1 4A5.7 5.7 0 0 0 3.3 8c0 5.7 3.4 6.9 6.7 7.3A3.5 3.5 0 0 0 9 18v4"/></svg> View on GitHub</a></div>
+<p class="hero-footnote"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg> No GPU required <span aria-hidden="true">·</span> Pure C engine <span aria-hidden="true">·</span> Open source</p>
+</div>
+<div class="hierarchy" role="img" aria-label="One model across three memory tiers: fast GPU memory, flexible system RAM, and high-capacity SSD storage. Weights move between them when needed.">
+<div class="diagram-top"><span>ONE MODEL. THREE TIERS.</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 10 5-10 5L2 8Z"/><path d="m2 12 10 5 10-5M2 16l10 5 10-5"/></svg></div>
+<div class="memory-tier fast"><div class="tier-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg></div><div><div class="tier-title">VRAM</div><div class="tier-sub">The fastest workspace</div></div><span class="tier-cap">GPU</span></div>
+<div class="connector" aria-hidden="true"></div>
+<div class="memory-tier middle"><div class="tier-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01M11 6.5h6M11 17.5h6"/></svg></div><div><div class="tier-title">RAM</div><div class="tier-sub">Keep the useful parts close</div></div><span class="tier-cap">MEMORY</span></div>
+<div class="connector" aria-hidden="true"></div>
+<div class="memory-tier bottom"><div class="tier-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 4-3 9v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6l-3-9Z"/><path d="M3 13h18M7 17h.01M11 17h.01"/></svg></div><div><div class="tier-title">NVMe storage</div><div class="tier-sub">Room for the entire model</div></div><span class="tier-cap">SSD</span></div>
+<div class="diagram-caption"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg> Load what you need. When you need it.</div>
+</div></div>
+<div class="stat-strip" aria-label="Project at a glance">
+<div class="stat"><strong>744B <span>→</span> 2.8T</strong><p>Frontier-scale model parameters</p></div>
+<div class="stat"><strong>9 <span>families</span></strong><p>One consistent interface</p></div>
+<div class="stat"><strong>0 <span>dependencies</span></strong><p>In the pure C engine</p></div>
+<div class="stat"><strong>100% <span>local</span></strong><p>Your models. Your machine.</p></div>
+</div>
+<div class="intro-heading"><h2 id="a-little-engine-with-a-different-idea">A little engine with a different idea.</h2><span class="pill">THE 30-SECOND VERSION</span></div>
+<p class="intro-copy">Most tools ask, “Can the whole model fit in memory?” Colibrì asks, “Which parts do we need right now?” That small change opens up much bigger models.</p>
+<div class="feature-grid">
+<div class="feature-card"><div class="feature-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 10 5-10 5L2 8Z"/><path d="m2 12 10 5 10-5M2 16l10 5 10-5"/></svg></div><h3 id="memory-that-works-together">Memory that works together</h3><p>Use fast memory for the busy parts, and storage for the rest.</p></div>
+<div class="feature-card"><div class="feature-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 10-12h-7Z"/></svg></div><h3 id="small-by-design">Small by design</h3><p>A lightweight C engine. No heavyweight runtime. No mandatory GPU.</p></div>
+<div class="feature-card"><div class="feature-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v7l-6 9a1.2 1.2 0 0 0 1 2h14a1.2 1.2 0 0 0 1-2l-6-9V3M7 15h10"/></svg></div><h3 id="measured-not-promised">Measured, not promised</h3><p>Real hardware. Reproducible results. Correctness before speed claims.</p></div>
+</div>
+<p class="reading-note"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg> <span>The full README, rewritten in plain English. Technical details and commands included. <a href="README.md">Read the original ↗</a></span></p>
+<div class="showcase">
+<div class="showcase-heading"><h2 id="see-it-running">See what's happening under the hood.</h2><span class="command">$ ./coli web</span></div>
+<div class="tabs" role="tablist" aria-label="Colibrì interface screenshots">
+<button class="tab" id="tab-dashboard" role="tab" aria-selected="true" aria-controls="panel-dashboard">Live dashboard</button>
+<button class="tab" id="tab-brain" role="tab" aria-selected="false" aria-controls="panel-brain" tabindex="-1">The Brain</button>
+<button class="tab" id="tab-atlas" role="tab" aria-selected="false" aria-controls="panel-atlas" tabindex="-1">Expert Atlas</button>
+</div>
+<div role="tabpanel" id="panel-dashboard" aria-labelledby="tab-dashboard" tabindex="0"><figure class="figure"><img class="screenshot" src="docs/media/colibri-dashboard.png" alt="Colibrì's web dashboard showing chat, live performance metrics, hardware status, and memory tiers" loading="lazy" width="3200" height="1900"><figcaption><strong>Your model, at a glance.</strong> Live token speed, time spent on each turn, hardware details, VRAM/RAM/disk use, and a miniature expert map. This README example shows a 744B model at 4 tok/s, a 1.6-second first token, and no disk reads on six RTX 5090s with all experts resident. It is one run, not a speed guarantee.</figcaption></figure></div>
+<div role="tabpanel" id="panel-brain" aria-labelledby="tab-brain" tabindex="0"><figure class="figure"><img class="screenshot" src="docs/media/colibri-brain.png" alt="The Brain page visualizing 19,456 experts as a live cortex, colored by memory tier" loading="lazy" width="3200" height="1900"><figcaption><strong>Watch 19,456 experts at work.</strong> Color shows the storage tier; brightness shows how often an expert is selected. Experts used in a turn flash white. Hovering in the real app shows an expert's <a href="https://github.com/JustVugg/colibri/issues/175">measured topic preference</a>.</figcaption></figure></div>
+<div role="tabpanel" id="panel-atlas" aria-labelledby="tab-atlas" tabindex="0"><figure class="figure"><img class="screenshot" src="docs/media/colibri-atlas.png" alt="The Atlas page displaying topic clusters of model experts in a three-dimensional galaxy" loading="lazy" width="3200" height="1900"><figcaption><strong>A map of what experts specialize in.</strong> The 3-D Atlas maps 13,260 measured experts, including 1,041 specialists confirmed in repeat tests. Clusters include poetry, law, Chinese, and SQL. Position reflects measured routing similarity, not a learned embedding. Drag to rotate in the real dashboard; this guide shows a screenshot. <a href="https://github.com/JustVugg/colibri/issues/175">Explore the experiment ↗</a></figcaption></figure></div>
+</div>
+</section>
+<section aria-labelledby="how-it-works-title" class="section" id="how-it-works"><h2 data-number="THE GUIDE / 01" id="how-it-works-title">How it works</h2>
+<h3 id="a-big-model-does-not-have-to-fit-in-memory">A big model does not have to fit in memory</h3>
+<p>Colibrì is a small program that runs large <strong>Mixture-of-Experts (MoE)</strong> AI models on your own hardware. An MoE model is a team of specialist networks, called <strong>experts</strong>. For each token (a small piece of text), a <strong>router</strong> chooses only the experts it needs.</p>
+<p>GLM-5.2 has 744 billion parameters, but uses about <strong>40 billion per token</strong>—roughly 5.4% of the total. Only about 11 GB of the active weights change between tokens. Instead of putting everything in expensive memory, Colibrì keeps frequently used parts nearby and reads the rest from storage when needed.</p>
+<div class="explain-grid">
+<div><span class="tier-label">01 / ALWAYS READY</span><h4>The shared parts</h4><p>Attention, shared experts, and embeddings—about 17B parameters—stay in RAM. In the int4 format, they take about 9.9 GB.</p></div>
+<div><span class="tier-label">02 / LOADED WHEN NEEDED</span><h4>The specialist parts</h4><p>19,456 routed experts live on disk: 75 MoE layers × 256, plus the MTP head. At about 19 MB each in int4, they take roughly 370 GB.</p></div>
+</div>
+<p>Think of it like a desk, a bookshelf, and a library. <strong>VRAM</strong> (graphics-card memory) is the quickest place to reach. <strong>RAM</strong> (system memory) is next. <strong>NVMe storage</strong> holds the full collection. Colibrì moves the right material to the right place rather than requiring a bigger desk.</p>
+<h3 id="five-steps-for-each-token">Five steps for each token</h3>
+<div class="flow"><div><b>01</b><strong>Route</strong><span>Choose the experts.</span></div><div><b>02</b><strong>Union</strong><span>Combine duplicate reads.</span></div><div><b>03</b><strong>Place</strong><span>Find the best memory tier.</span></div><div><b>04</b><strong>Overlap</strong><span>Read and compute together.</span></div><div><b>05</b><strong>Learn</strong><span>Remember what gets used.</span></div></div>
+<p>The engine tracks which experts your work uses. A per-layer <strong>LRU cache</strong> replaces the least recently used experts; a learned <strong>hot-store</strong> keeps popular ones ready; and optional <strong>prefetching</strong> loads likely experts one layer early. This is like a just-in-time compiler, but for model weights. The <a href="https://github.com/JustVugg/colibri/issues/175">expert atlas</a> shows that routing patterns have useful structure.</p>
+<p><strong>The rule: memory placement changes speed, not the model.</strong> Running out of fast memory must never silently lower precision or change the router's choices. Learned caching helps repeated work, but can overfit one prompt; prefetching can also slow some machines down. Measure both.</p>
+<p>The GLM engine is <code>c/colibri.c</code> plus small shared headers. The C engine needs no BLAS library, no Python at runtime, and no GPU. The optional launcher, converter, and API gateway use Python.</p>
+</section>
+<section aria-labelledby="get-started-title" class="section" id="get-started"><h2 data-number="THE GUIDE / 02" id="get-started-title">Get started</h2>
+<p>You need <strong>the program</strong> (a few hundred KB) and <strong>model files</strong> (about 372 GB for GLM-5.2). You do not need a GPU. Requirements differ by model—check the <a href="#supported-models">model table</a> before downloading. The <a href="docs/quickstart.md">full quick-start guide</a> covers each platform.</p>
+<h3 id="1-install-colibr">1. Install Colibrì</h3>
+<p><strong>The easiest option: download a prebuilt release.</strong> Choose your Linux, macOS, or Windows archive from <a href="https://github.com/JustVugg/colibri/releases">GitHub Releases</a>. No compiler is needed. Install <a href="https://www.python.org/downloads/">Python 3</a> for the launcher and its helpers.</p>
+<div class="code-block"><div class="code-toolbar"><span>TERMINAL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-bash"><span class="code-comment"># Example archive from the README. Use your downloaded filename.
+</span>mkdir colibri &amp;&amp; tar xzf colibri-v1.8.0-linux-x86_64.tar.gz -C colibri
+cd colibri
+python3 coli info
+</code></pre></div>
+<p>The archive contains the C engine (<code>colibri</code>, or <code>colibri.exe</code> on Windows), the <code>coli</code> launcher, and Python helpers. The launcher finds the engine beside it; nothing needs renaming.</p>
+<p><strong>Or build it yourself.</strong> You need GCC or Clang with OpenMP (support for using multiple CPU threads).</p>
+<div class="code-block"><div class="code-toolbar"><span>TERMINAL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-bash">git clone https://github.com/JustVugg/colibri.git
+cd colibri/c
+./setup.sh
+</code></pre></div>
+<p>The setup script checks the compiler, builds the engine, and runs self-tests. To make <code>coli</code> available from any directory, run <code>pip install -e .</code> from the repository root. This is an editable installation, not a standalone wheel; keep the checkout, including <code>c/</code>, in place.</p>
+<div class="callout"><strong>A note about command paths</strong><p>In the examples below, run <code>./coli</code> from the unpacked release folder or the source checkout's <code>c/</code> folder. Run commands beginning with <code>make -C c</code> or <code>./c/coli</code> from the repository root. If you installed the launcher on your PATH, use <code>coli</code> instead.</p></div>
+<h3 id="2-download-a-model">2. Download a model</h3>
+<p>For GLM-5.2, use the <strong>group-scaled int4 (gs64) model with an int8 MTP head</strong>. Allow about 372 GB on a drive—preferably a fast NVMe SSD.</p>
+<p><a href="https://huggingface.co/mastouri/GLM-5.2-colibri-int4-g64-with-int8-mtp">Download GLM-5.2 int4-g64 + int8 MTP on Hugging Face ↗</a></p>
+<div class="callout warning"><strong>Choose the right model format</strong><p>Older per-row int4 mirrors (such as mateogrgic/… and jlnsrk/…) scored about 9 percentage points worse and caused some looping and never-ending answers in <a href="https://github.com/JustVugg/colibri/issues/455">issue #455</a>. The gs64 version fixed those specific comparisons, but cannot prevent every repetition or failure to stop.</p><p>The MTP head must be <strong>int8, not int4</strong>. An int4 head can produce almost no accepted draft tokens (<a href="https://github.com/JustVugg/colibri/issues/8">#8</a>). Check <code>ls -l &lt;model&gt;/out-mtp-*</code>: the correct int8 file sizes are <code>3527131672 / 5366238584 / 1065950496</code> bytes.</p></div>
+<p>You can also download and convert the original FP8 weights one shard (file) at a time. This resumable, one-time Python step does not need all 756 GB of the source on disk at once:</p>
+<div class="code-block"><div class="code-toolbar"><span>TERMINAL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-bash">./coli convert --model /nvme/glm52_i4
+</code></pre></div>
+<h3 id="3-run-it-your-way">3. Run it your way</h3>
+<p>Replace <code>/nvme/glm52_i4</code> with the path to your model. The launcher detects the RAM budget, cache settings, and MTP support.</p>
+<div class="code-block"><div class="code-toolbar"><span>TERMINAL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-bash"><span class="code-comment"># Chat in your terminal
+</span>COLI_MODEL=/nvme/glm52_i4 ./coli chat
+
+<span class="code-comment"># See how the model will be split across VRAM, RAM, and disk
+</span>COLI_MODEL=/nvme/glm52_i4 ./coli plan
+
+<span class="code-comment"># Check readiness without changing anything
+</span>COLI_MODEL=/nvme/glm52_i4 ./coli doctor
+COLI_MODEL=/nvme/glm52_i4 ./coli doctor --deep
+
+<span class="code-comment"># Measure and save the fastest safe settings for this machine
+</span>COLI_MODEL=/nvme/glm52_i4 ./coli tune
+
+<span class="code-comment"># Start the API and dashboard, and open your browser
+</span>./coli web --model /nvme/glm52_i4
+
+<span class="code-comment"># Start the API and dashboard without opening a browser
+</span>./coli serve --model /nvme/glm52_i4
+</code></pre></div>
+<p>The deep check verifies tensors, shards, indexes, and any mirror. On Windows, double-click the release's <code>coli.cmd</code> for quick start, or use the launcher from Command Prompt or PowerShell:</p>
+<div class="code-block"><div class="code-toolbar"><span>WINDOWS · POWERSHELL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-powershell">coli.cmd chat --model D:\glm52_i4
+<span class="code-comment"># From the c/ folder of a source checkout:
+</span>python coli chat --model D:\glm52_i4
+</code></pre></div>
+<p>Do not start the engine <code>.exe</code> on its own: it has no model selected and will exit. The engine is pure C; the launcher and optional gateway are Python programs.</p>
+<p>A terminal session can look like this. This is the README's example, not a promise about startup time on your machine:</p>
+<div class="code-block"><div class="code-toolbar"><span>EXAMPLE SESSION</span><button type="button" class="copy-button" aria-label="Copy example session">Copy</button></div><pre><code>$ ./coli chat
+  🐦 colibri v1.11.0 — GLM-5.2 · 744B MoE · int4 · streaming CPU
+  ✓ ready in 32s · resident 9.9 GB
+  › ciao!
+  ◆ Ciao! 😊 Come posso aiutarti oggi?
+</code></pre></div>
+<p>The user says “hello” in Italian, and the model answers, “Hello! How can I help you today?”</p>
+<h3 id="4-switch-models-not-workflows">4. Switch models, not workflows</h3>
+<p><code>coli</code> reads the model's <code>config.json</code>, chooses the right engine, and formats the conversation for that model. Build the engine once, then change only the model path.</p>
+<div class="code-block"><div class="code-toolbar"><span>TERMINAL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-bash"><span class="code-comment"># Run these builds from the repository root
+</span>make -C c glm
+make -C c inkling
+make -C c kimi_k3
+
+<span class="code-comment"># Run these from c/ (or use coli from your PATH)
+</span>COLI_MODEL=/nvme/glm52_i4 ./coli chat
+COLI_MODEL=/nvme/inkling_i4 ./coli chat
+COLI_MODEL=/nvme/kimi_k3 ./coli chat
+
+./coli web --model /nvme/inkling_i4
+./coli web --model /nvme/kimi_k3
+./coli serve --model /nvme/inkling_i4
+</code></pre></div>
+<p>For non-GLM engines, terminal chat starts a local gateway and connects to it. The terminal, API, and dashboard therefore use the same model-specific chat formatting. You do not need to supply a template.</p>
+</section>
+<section aria-labelledby="supported-models-title" class="section" id="supported-models"><h2 data-number="THE GUIDE / 03" id="supported-models-title">Supported models</h2>
+<p><strong>Nine model families, one familiar interface.</strong> Every family has its own C engine and uses the same <code>coli chat</code>, <code>coli serve</code>, and <code>coli web</code> commands. “Total” means all model parameters; “active” means the parameters used for one token. B means billion; T means trillion.</p>
+<h3 id="hardware-requirements">Hardware requirements</h3>
+<p>These are different models, so their requirements are not interchangeable (<a href="https://github.com/JustVugg/colibri/issues/191">#191</a>). None requires a GPU. A GPU may speed up a supported backend, but storage speed and cache use still matter.</p>
+<div aria-label="Scrollable reference table" class="table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Model</th>
+<th scope="col">Storage for weights</th>
+<th scope="col">System memory (RAM)</th>
+<th scope="col">GPU support</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OLMoE</strong></td>
+<td>~7 GB, int8</td>
+<td>8 GB</td>
+<td>Not required</td>
+</tr>
+<tr>
+<td><strong>GLM-5.2 / 5.3</strong></td>
+<td>~372 GB</td>
+<td>16 GB minimum; 24 GB comfortable</td>
+<td>Not required</td>
+</tr>
+<tr>
+<td><strong>GLM-5.3-Flash</strong></td>
+<td>~195 GB after conversion</td>
+<td>25 GB (12 GB int4 weights + expert cache)</td>
+<td>Not required</td>
+</tr>
+<tr>
+<td><strong>Inkling</strong></td>
+<td>~469 GB</td>
+<td>25 GB with int4 dense weights; ~120 GB without</td>
+<td>Not required</td>
+</tr>
+<tr>
+<td><strong>Kimi K3</strong></td>
+<td>~1.6 TB</td>
+<td>32 GB or more</td>
+<td>Not required</td>
+</tr>
+<tr>
+<td><strong>DeepSeek V4 Flash</strong></td>
+<td>~167 GB; REAP 150B version ~85 GB</td>
+<td>16 GB minimum; 32 GB comfortable</td>
+<td>Optional NVIDIA GTX 10 or newer. Pascal/Turing needs <code>CUDA_ARCH=portable-pre-ampere NO_TC=1</code>; best on RTX 50. Reported prompt processing 5–10× faster, decoding ~2.5× faster.</td>
+</tr>
+<tr>
+<td><strong>Qwen3.8-Flash-Next</strong></td>
+<td>~185.5 GB, official FP8 checkpoint</td>
+<td>16 GB minimum; 24 GB comfortable at default context</td>
+<td>CPU only; GPU not supported</td>
+</tr>
+<tr>
+<td><strong>Qwen3.6-35B-A3B</strong></td>
+<td>~20 GB, int4-gs64</td>
+<td>24 GB; the full model must fit in RAM</td>
+<td>Optional CUDA expert cache. Two 8 GB GPUs measured 1.44 → 10.05 tok/s with identical output.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The README does not list a full disk/RAM requirement for DeepSeek V4.1 Flash; see its <a href="docs/deepseek-v41.md">model guide</a>. The table above preserves the requirements that the README does give.</p>
+<h3 id="model-files-builds-and-guides">Model files, builds, and guides</h3>
+<div aria-label="Scrollable reference table" class="table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Family</th>
+<th scope="col">Total / active parameters</th>
+<th scope="col">Model files and format</th>
+<th scope="col">Build from repository root</th>
+<th scope="col">Guide</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GLM-5.2 / 5.3</strong></td>
+<td>744B / 40B</td>
+<td><a href="https://huggingface.co/mastouri/GLM-5.2-colibri-int4-g64-with-int8-mtp">GLM-5.2 int4-g64 + int8 MTP</a>, 372 GB</td>
+<td><code>make -C c glm</code></td>
+<td><a href="#get-started">Get started</a></td>
+</tr>
+<tr>
+<td><strong>Inkling</strong> · Thinking Machines</td>
+<td>975B / 41B</td>
+<td><a href="https://huggingface.co/nbeerbower/Inkling-colibri-int4">Inkling int4</a>, 469 GB</td>
+<td><code>make -C c inkling</code></td>
+<td><a href="docs/inkling.md">Inkling</a></td>
+</tr>
+<tr>
+<td><strong>GLM-5.3-Flash</strong> · Z.ai</td>
+<td>321B / 40B</td>
+<td><a href="https://huggingface.co/zai-org/GLM-5.3-Flash">Official checkpoint</a>. Experts converted to int4-gs64; dense weights stay BF16. Precision is chosen at load time. Includes vision.</td>
+<td><code>make -C c glm53</code></td>
+<td><a href="docs/glm53-flash.md">GLM Flash</a></td>
+</tr>
+<tr>
+<td><strong>Kimi K3</strong> · Moonshot</td>
+<td>2.8T / 104B</td>
+<td><a href="https://huggingface.co/moonshotai/Kimi-K3">Original checkpoint</a>. Routed experts stay in native MXFP4.</td>
+<td><code>make -C c kimi_k3</code></td>
+<td><a href="docs/kimi_k3.md">Kimi K3</a></td>
+</tr>
+<tr>
+<td><strong>DeepSeek V4 Flash</strong></td>
+<td>284B / 13B</td>
+<td>Official shards: native fp4 experts and fp8-e4m3 dense weights. The smaller <a href="https://huggingface.co/puwaer/DeepSeek-V4-Flash-0731-reap-150b">REAP 150B version</a> (85 GB; 132 of 256 experts) uses the same engine, without conversion.</td>
+<td><code>make -C c deepseek-v4</code></td>
+<td><a href="docs/deepseek-v4.md">DeepSeek V4</a></td>
+</tr>
+<tr>
+<td><strong>DeepSeek V4.1 Flash</strong></td>
+<td>552B / 16B</td>
+<td>Official checkpoint, no conversion: fp4 experts, fp8-e4m3 dense weights. Its 203 GB n-gram memory reads a few hundred bytes at a time. Expert reads are 4.5 GB per token vs. GLM-5.2's 12.7 GB. Vision, tool calling, and DSpark drafting are enabled.</td>
+<td><code>make -C c deepseek_v41</code></td>
+<td><a href="docs/deepseek-v41.md">DeepSeek V4.1</a></td>
+</tr>
+<tr>
+<td><strong>Qwen3.8-Flash-Next</strong> · Alibaba</td>
+<td>125B + 51B n-gram / 6B</td>
+<td><a href="https://huggingface.co/Qwen/Qwen3.8-Flash-Next-FP8">Original FP8 checkpoint</a>. PLE memory can be paged in as needed; experts stay in native block-FP8.</td>
+<td><code>make -C c qwen38</code> (CPU only)</td>
+<td><a href="docs/qwen38.md">Qwen3.8</a></td>
+</tr>
+<tr>
+<td><strong>Qwen3.6</strong> · Alibaba</td>
+<td>35B / 3B</td>
+<td><a href="https://huggingface.co/Kreuzzelg/qwen36-35b-a3b-colibri-i4-gs64">Recommended int4-gs64 container</a>, ~20 GB. Combines Gated Attention and Gated DeltaNet.</td>
+<td><code>make -C c qwen36</code> (add <code>CUDA=1</code> for GPU expert caching)</td>
+<td><a href="docs/qwen36.md">Qwen3.6</a></td>
+</tr>
+<tr>
+<td><strong>OLMoE</strong> · AI2</td>
+<td>7B / 1B</td>
+<td>Convert with <code>c/tools/convert_olmoe_merged.py</code>. Int8 container, ~7 GB.</td>
+<td><code>make -C c olmoe</code></td>
+<td><a href="c/tools/convert_olmoe_merged.py">Converter</a></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="details-worth-knowing">Details worth knowing</h3>
+<p><strong>Qwen3.6:</strong> the recommended int4-gs64 container has about 44% less measured quantization error than per-row int4. Similarity to the int8 reference improves from 0.98777 to 0.99313, and KL divergence (a measure of output difference) drops from 0.109 to 0.080. The <a href="https://huggingface.co/Kreuzzelg/qwen36-35b-a3b-colibri-i4">per-row int4 container</a> is available for comparison. <a href="https://huggingface.co/Kreuzzelg/kat-coder-v2.5-dev-colibri-i4-gs64">KAT-Coder v2.5</a> uses the same engine without changes, as can other checkpoints with the same architecture. With <code>CUDA=1</code>, two 8 GB GPUs improved measured speed from <strong>1.44 to 10.05 tokens/second (7×)</strong>, with exactly the same output as the CPU path.</p>
+<p><strong>Kimi K3:</strong> no conversion is needed. It reads the original, quantization-trained MXFP4 experts directly from Hugging Face shards and compresses the BF16 dense weights when loading. The snapshot is about <strong>1.6 TB</strong>. For long agent sessions, <code>COLI_K3_CKPT=N</code> stores N recurrent-state checkpoints in RAM; <code>COLI_K3_CKPT_DIR</code> can park them on disk. When a prompt changes, the engine restores the latest usable checkpoint and processes only the remaining text, rather than replaying the whole conversation through its state-space layers. On Vulkan, <code>K3_VK_UP=auto</code> uses measured bandwidth to size expert uploads. CI checks the KDA and MLA attention paths token-for-token against the vendor's implementation.</p>
+<p><strong>Inkling:</strong> the int4 expert release still has BF16 dense weights (49.4 GB resident). The <a href="docs/inkling.md">Inkling guide</a> includes a one-pass tool to shrink the dense set to 15.3 GB, allowing the 975B model to run on a 25 GB machine, with a documented quality trade-off. On a low-RAM host, use that int4 dense container and a small expert cache:</p>
+<div class="code-block"><div class="code-toolbar"><span>TERMINAL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-bash">./coli chat --model /nvme/inkling_i4 --cap 2
+</code></pre></div>
+<p>The default <code>--cap 8</code> needs roughly 14 GB of cache in addition to resident weights.</p>
+</section>
+<section aria-labelledby="performance-title" class="section" id="performance"><h2 data-number="THE GUIDE / 04" id="performance-title">Performance</h2>
+<h3 id="real-machines-measured-results">Real machines. Measured results.</h3>
+<p>The same engine and int4 container can run on a small CPU machine or a multi-GPU system. Hardware changes where the experts live, and how fast they can be read—not the meaning of the model. These are <strong>reported measurements, not speed guarantees</strong>. Warm caches already contain useful experts; cold caches do not.</p>
+<div class="benchmark-list">
+<div><span><strong>6 × RTX 5090</strong><small>All experts in fast memory · first token ~13 s</small></span><b>5.8–6.8 <small>tok/s</small></b></div>
+<div><span><strong>128 GB CPU-only desktop</strong><small>Warm cache</small></span><b>~1.8 <small>tok/s</small></b></div>
+<div><span><strong>Single RTX 5070 Ti</strong><small>Laptop-class setup · GPU-resident pipeline</small></span><b>1.07 <small>tok/s</small></b></div>
+<div><span><strong>25 GB development machine</strong><small>Cold cache · the project's starting point</small></span><b>0.05–0.1 <small>tok/s</small></b></div>
+</div>
+<p>Sources: <a href="docs/experiments/glm52-6x5090-2026-07-12.md">6× 5090 experiment</a>, <a href="https://github.com/JustVugg/colibri/issues/200">128 GB desktop #200</a>, <a href="https://github.com/JustVugg/colibri/issues/273">5070 Ti #273</a>, and the <a href="docs/benchmarks.md">full benchmark tables</a>. <strong>TTFT</strong> means time to first token; <strong>tok/s</strong> means generated tokens per second.</p>
+<p>Quality matters too. Smaller weight formats can change accuracy. The <a href="docs/benchmarks.md#quality-benchmark">quality benchmarks</a> and experiments <a href="https://github.com/JustVugg/colibri/issues/108">#108</a> and <a href="https://github.com/JustVugg/colibri/issues/81">#81</a> measure int4's quality cost, the effect of scale-group sizes, and weight rotations.</p>
+</section>
+<section aria-labelledby="research-title" class="section" id="research"><h2 data-number="THE GUIDE / 05" id="research-title">Research</h2>
+<h3 id="more-access-less-dependence-on-expensive-hardware">More access, less dependence on expensive hardware</h3>
+<p>Colibrì is both a working inference engine and an open research project. Its goal is to reduce the hardware and cost needed to run large models privately. You can inspect the model's experts, measure the system, and change the code instead of only renting access through an API.</p>
+<p>The project tests the entire path: how weights are stored and compressed; where they live; when to move them; how CPU and GPU work together; and how to reduce launch, synchronization, and decoding overhead. An idea is not accepted just because it is conventional—or because one small benchmark looks good. It must improve a real, end-to-end run while preserving measured correctness and quality.</p>
+<p><strong>There is no service-level promise about speed.</strong> There is a firm default rule against silently changing precision or routing. Less fast memory should mean a slower model, not a secretly different one.</p>
+<h3 id="what-has-been-learned">What has been learned</h3>
+<ul>
+<li><strong>Treat memory as connected tiers.</strong> VRAM, RAM, and storage all hold the same weights; limited fast memory does not prevent inference.</li>
+<li><strong>Load weights just in time.</strong> Routing history, LRU caching, pinned popular experts, and one-layer lookahead can reduce reads. History can overfit, and lookahead does not always win.</li>
+<li><strong>Make storage part of the engine.</strong> Combine repeated expert reads, overlap I/O with computing, test direct disk access, and spread reads across two SSDs. Drive type matters; dual-drive end-to-end tests are still needed.</li>
+<li><strong>Mix hardware when useful.</strong> CPU, CUDA, Metal, NUMA memory, and partial or full expert residency share one runtime. The best mix depends on bandwidth, compute speed, cache residency, and workload.</li>
+<li><strong>Save state without redefining the model.</strong> Compressed attention state, warm conversation restarts, faithful sparse attention, and token-by-token validation protect correctness. Memory savings are not automatically throughput gains.</li>
+<li><strong>Make speculative decoding prove itself.</strong> Drafting tokens ahead of time can help, but verification may cost more than it saves. Disable it when measurements say so.</li>
+</ul>
+<h3 id="open-questions-you-can-help-answer">Open questions you can help answer</h3>
+<div aria-label="Scrollable reference table" class="table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Question</th>
+<th scope="col">What we know</th>
+<th scope="col">What to test next</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Can routing history beat ordinary LRU caching?</td>
+<td>Keeping frequently used experts improves repeated tasks, but may overfit one prompt.</td>
+<td>Test new prompts across sessions: coding, chat, different languages, and long conversations.</td>
+</tr>
+<tr>
+<td>Can two SSDs make decoding faster?</td>
+<td>Weighted mirror/split routing works and the bandwidth model makes sense.</td>
+<td>Compare cold-cache GLM-5.2 runs on one and two drives with independent controllers.</td>
+</tr>
+<tr>
+<td>Can an automatic planner find the best setup?</td>
+<td>RAM/VRAM budgets and several backends are detected already.</td>
+<td>Compare its plan with a controlled settings sweep on laptops, workstations, NUMA hosts, and multi-GPU machines.</td>
+</tr>
+<tr>
+<td>Can better weight formats reduce data movement affordably?</td>
+<td>Format and quantization comparisons include quality checks.</td>
+<td>Measure quality, bytes moved, latency, and cost per useful token together—not just compression.</td>
+</tr>
+<tr>
+<td>Can drafting help before most experts are cached?</td>
+<td>MTP and grammar drafts work, but MTP also caused a 32% slowdown at about 85% expert-cache hits.</td>
+<td>Find the break-even point for acceptance rate, cache hits, batch sharing, and draft depth.</td>
+</tr>
+<tr>
+<td>Can CPU/GPU overlap hide transfer and synchronization time?</td>
+<td>CUDA and Metal can help, but fast CPUs and low cache residency can remove the benefit.</td>
+<td>Profile each stage; change one variable at a time on PCIe, unified-memory, and fully resident systems.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Pick a question and share failures as well as wins. Record the hardware, commit, model and format, exact command, prompt, cache state, throughput, time to first token, expert hit rate, bytes read, and quality check. Change <strong>one variable</strong>, repeat the run, and attach raw logs. Start with <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>, follow the <a href="docs/benchmarks.md">benchmark protocol</a>, and <a href="https://github.com/JustVugg/colibri/issues/new">open an experiment issue</a>. A controlled failure teaches more than an unexplained fast result.</p>
+<h3 id="what-s-next">What's next</h3>
+<p>Research is the main product. Work continues on formats, compression, placement, scheduling, storage I/O, CPU/GPU kernels, overlapping computation, attention state, and routing-aware token drafting. The aim is lower hardware requirements and lower cost per useful token, with changes measured, reviewed, and developed openly.</p>
+<p>The approach can work with other open MoE models. Nine families run today; <strong>MiniMax</strong> is among the candidates for future engines. New support needs real end-to-end measurements, not just an announcement.</p>
+</section>
+<section aria-labelledby="advanced-techniques-title" class="section" id="advanced-techniques"><h2 data-number="THE GUIDE / 06" id="advanced-techniques-title">Advanced techniques</h2>
+<h3 id="run-across-a-local-cluster">Run across a local cluster</h3>
+<p>In local cluster mode, a coordinator keeps token generation, routing, and attention state on the main machine. Workers on other Macs read local model files and compute the selected expert feed-forward networks (FFNs). A layer's combined expert request uses one persistent TCP connection, not a separate network round trip for each expert.</p>
+<p>Start the optional registration service:</p>
+<div class="code-block"><div class="code-toolbar"><span>TERMINAL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-bash">./coli cluster coordinator --host 0.0.0.0 --port 8765
+</code></pre></div>
+<p>Give each worker the same converted model locally. Replace <code>COORDINATOR</code> and <code>WORKER_IP</code> with your machines' addresses:</p>
+<div class="code-block"><div class="code-toolbar"><span>TERMINAL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-bash">./coli cluster worker --model /nvme/glm52_i4 --port 9100 \
+  --coordinator http://COORDINATOR:8765 --advertise-host WORKER_IP
+</code></pre></div>
+<p>On the coordinator machine, start inference with worker discovery:</p>
+<div class="code-block"><div class="code-toolbar"><span>TERMINAL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-bash">./coli serve --model /nvme/glm52_i4 \
+  --cluster-coordinator http://127.0.0.1:8765
+</code></pre></div>
+<p>Alternatively, specify <code>--cluster-workers HOST:PORT,...</code> manually. Cluster transport stays off when no workers are configured, leaving single-machine behavior unchanged. Splitting dense layers and adding browser/WebGPU workers are separate future tasks. Only expose these services on a trusted network.</p>
+<h3 id="use-a-second-ssd">Use a second SSD</h3>
+<p>Expert weights are read-only. Put a full or partial second copy on another SSD so the engine can read both drives at once:</p>
+<div class="code-block"><div class="code-toolbar"><span>TERMINAL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-bash">COLI_MODEL=/fast/glm52_i4 COLI_MODEL_MIRROR=/second/glm52_i4 ./coli chat
+
+<span class="code-comment"># Optional: declare a 9:3 bandwidth ratio instead of measuring at startup
+</span>COLI_DISK_WEIGHTS=9,3 COLI_MODEL=/fast/glm52_i4 \
+  COLI_MODEL_MIRROR=/second/glm52_i4 ./coli chat
+</code></pre></div>
+<p>A fixed, bandwidth-weighted hash assigns each expert to one drive. Prefetch and actual reads use the same drive, so the same expert is not cached twice. A 9 GB/s + 3 GB/s pair offers about 33% more theoretical read bandwidth than the faster drive alone; <strong>this is not a guaranteed 33% decoding improvement</strong>. Parallel pinning and warmup also read both drives.</p>
+<ul>
+<li>At startup, each mirror file's size and safetensors header must match the primary byte-for-byte. Missing or different files are silently read from the primary; partial mirrors are allowed.</li>
+<li>The mirror is never written to during inference. <code>.coli_usage</code>, <code>.coli_kv</code>, and other sidecar files stay on the primary.</li>
+<li>A mirror read failure falls back to the primary and emits one warning rather than crashing the server.</li>
+<li>With identical weights, drive selection does not change tokens. The <code>MIRROR:</code> statistics show gigabytes read from each drive.</li>
+</ul>
+<p>A 25 GB laptop may stream almost everything from disk. On a large machine, <code>CUDA_EXPERT_GB=auto PIN_GB=all</code> can keep all experts resident and remove disk reads from decoding. Between those extremes, <code>.coli_usage</code> records routing every turn so the cache can pin frequently used experts. It can improve repeated workloads, but improvement is not guaranteed for changing tasks. On multi-socket machines, <code>COLI_NUMA=1</code> spreads resident weights across memory controllers (<a href="https://github.com/JustVugg/colibri/issues/82">#82</a>).</p>
+<p>For a smaller second drive, run representative prompts first, then use the learned history to choose useful shards. From the repository root:</p>
+<div class="code-block"><div class="code-toolbar"><span>TERMINAL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-bash">./c/coli mirror plan --model /fast/glm52_i4 --mirror /second/glm52_i4 \
+  --budget-gib 200 --reserve-gib 20
+./c/coli mirror stage --model /fast/glm52_i4 --mirror /second/glm52_i4 \
+  --budget-gib 200 --reserve-gib 20
+./c/coli mirror verify --model /fast/glm52_i4 --mirror /second/glm52_i4
+</code></pre></div>
+<p>The planner reads safetensors headers, follows split directories in <code>COLI_MODEL_DIRS</code>, and favors shards containing frequently used experts. Staging leaves the primary untouched, copies through temporary files, keeps the requested free space, checks every copied shard with SHA-256, never deletes existing mirror shards, and publishes its receipt atomically only when the selected mirror is ready.</p>
+<h3 id="read-less-and-compute-while-waiting">Read less, and compute while waiting</h3>
+<p>Each expert's three matrices are stored together and loaded with one <code>pread</code> call. A bounded asynchronous I/O pool (<code>PIPE=1</code>, the default) reads missing experts while cached experts compute. A batch reads each unique expert once. A lookahead thread (<code>PILOT=1</code>) predicts the next layer's experts; measured routing predictability one layer ahead was <strong>71.6%</strong>.</p>
+<p>On CUDA, <code>COLI_CUDA_PIPE=2</code> keeps the running intermediate state on the GPU between layers so the CPU expert loop can continue. The experimental <a href="docs/metal.md">Metal backend</a> runs batched expert math on Apple Silicon's unified-memory GPU. The <a href="docs/vulkan.md">Vulkan backend</a> supports the expert tier, dense projections, and MLA attention on GPUs with a Vulkan 1.2 driver. This includes AMD via Mesa/RADV, older cards such as the RX 580 that vendor stacks no longer support, and RDNA4 cards with results competitive with ROCm in the linked benchmarks.</p>
+<div class="callout"><strong>Try direct disk access—then measure</strong><p><code>DIRECT=1</code> uses O_DIRECT to bypass the operating system's file cache. Reported results include +34% decode with <code>PIPE=1</code> on a Blackwell/Windows machine, and 4.25 → 9.69 GB/s in iobench on a GB10. Drives with DRAM caches and spare bandwidth often benefit; QLC, DRAM-less, or virtual disks may not. Keep the setting only if it helps your machine.</p></div>
+<h3 id="keep-the-model-faithful-make-its-state-smaller">Keep the model faithful, make its state smaller</h3>
+<p>The forward pass is checked against a <code>transformers</code> reference implementation. In teacher-forcing tests (feeding the same known tokens to both implementations), typically <strong>30–32 of 32 positions</strong> match; two tiny-test positions can differ because near-tied floating-point values depend on the toolchain.</p>
+<p>MLA attention stores <strong>576 floats per token instead of 32,768—about 57× less</strong> attention memory (the KV cache). It saves this state in <code>.coli_kv</code>, so a conversation can reopen after a restart without processing the old prompt again, with state identical to an uninterrupted session. DSA sparse attention, GLM-5.2's lightning indexer, is implemented faithfully; selecting every key is tested to reproduce dense attention exactly.</p>
+<h3 id="draft-tokens-but-check-the-total-cost">Draft tokens, but check the total cost</h3>
+<p>GLM-5.2's <strong>MTP (multi-token prediction)</strong> head drafts tokens for the main model to check together. When it helps, this yields 2.2–2.8 tokens per forward pass. Two important defaults protect acceptance:</p>
+<ol>
+<li>Use an <strong>int8 MTP head</strong>. An int4 head collapses to about 0–4% draft acceptance (<a href="https://github.com/JustVugg/colibri/issues/8">#8</a>).</li>
+<li>Drafting and checking must compute the same function. <code>SPEC_PIN=1</code> keeps both on the same kernel family (<a href="https://github.com/JustVugg/colibri/issues/163">#163</a>).</li>
+</ol>
+<p>For constrained JSON, <a href="docs/grammar-draft.md">grammar-forced drafts</a> (<code>GRAMMAR=file.gbnf</code>) can add accepted tokens at little extra cost. The result still depends on cache warmth. Measure the whole run and use <code>DRAFT=0</code> if drafting is slower.</p>
+</section>
+<section aria-labelledby="deepseek-v4-title" class="section" id="deepseek-v4"><h2 data-number="THE GUIDE / 07" id="deepseek-v4-title">DeepSeek V4</h2>
+<h3 id="native-weights-optional-gpu-acceleration">Native weights, optional GPU acceleration</h3>
+<p>DeepSeek V4 Flash runs the official sharded safetensors checkpoint directly—no conversion. Routed experts remain <strong>native fp4</strong>; dense weights remain <strong>fp8-e4m3</strong> with UE8M0 block scales. Its architecture uses MLA plus DSA sparse attention, 43 layers, 256 routed experts and one shared expert, selecting six routed experts at a time.</p>
+<p>CPU support covers x86-64 and aarch64 Linux, plus Windows/MSYS2. The optional CUDA tier uses a runtime DLL on Windows and a direct <code>CUDA=1</code> link on Linux (verified under WSL2). Each stage keeps the CPU's behavior as its reference and can fall back to the CPU.</p>
+<div class="code-block"><div class="code-toolbar"><span>TERMINAL</span><button aria-label="Copy commands" class="copy-button" type="button">Copy</button></div><pre><code class="language-bash"><span class="code-comment"># From the repository root
+</span>cd c
+make deepseek-v4
+python ./coli chat --model /path/to/DeepSeek-V4-Flash --ram 32
+<span class="code-comment"># Also supported: coli run / coli serve / coli web
+</span>
+<span class="code-comment"># Optional Windows CUDA tier
+</span>make cuda-dsv4-dll CUDA_ARCH=portable
+<span class="code-comment"># On RTX 50, also: make cuda-dsv4-dg-dll
+</span></code></pre></div>
+<p>Two experimental GPU options are <strong>off by default</strong>; leaving them unset preserves output byte-for-byte:</p>
+<ul>
+<li><code>DSV4_HYBRID=1</code> divides expert-cache misses between GPU loading and CPU computation using measured bandwidth.</li>
+<li><code>COLI_CUDA_MOE_DOUBLE=1</code>, together with <code>COLI_CUDA_MOE_BATCH=1</code>, loads the next layer's experts into a second VRAM bank while the current layer computes. It falls back to one bank if VRAM is short.</li>
+</ul>
+<p>Pascal and Turing cards (GTX 10 / RTX 20) are supported too: build with <code>CUDA_ARCH=portable-pre-ampere NO_TC=1</code>. The project is looking for community measurements of these options.</p>
+<h3 id="features-and-measured-timings">Features and measured timings</h3>
+<p>The engine uses greedy decoding (always choose the highest-scoring next token) and one KV slot. Tool calling works through the HTTP gateway using V4's native prompt and DSML call blocks; grammar constraints are not supported. See the <a href="docs/api.md#tool-calling-support">per-engine API matrix</a>.</p>
+<p>Prefix checkpoints in RAM and on disk reuse previously processed prompts. On an RTX 5080 with two NVMe drives, a 3,324-token prompt took 90 seconds to process; an 8.3k-token first turn took about four minutes once; later sessions or turns started in <strong>6–9 seconds</strong>. Decode speed was about <strong>1.6 tok/s at 3k context</strong>. These are specific measurements, not universal timings; details are in the <a href="docs/deepseek-v4.md">V4 guide</a>.</p>
+<p><strong>Give it RAM.</strong> The 43 × 256 routed experts take about 137 GiB on disk, and a token touches 301 experts. The cache hit rate drives speed, making <code>--ram</code> the most useful setting. It changes speed, not output.</p>
+<h3 id="why-speculative-drafting-is-switched-off">Why speculative drafting is switched off</h3>
+<p>DSpark's Markov drafter and full MTP are implemented and checked. They can save passes, but accepted tokens must still be the target model's own highest-scoring choices. In real multi-turn tests, they accepted only <strong>1 in 15</strong> and <strong>10 in 24</strong> drafts. Replaying rejected drafts through recurrent attention cost more than drafting saved: one 14-token answer took <strong>495 seconds</strong>.</p>
+<p>For that reason, <code>V4_DRAFT</code> and <code>V4_MTP</code> default to <code>0</code>. The code and results remain available for experiments on faster storage. The <a href="docs/deepseek-v4.md">DeepSeek V4 guide</a> covers CUDA builds, DLL selection, GPU compatibility, environment settings, performance, checkpoint checks, and an independent tiny-model reference test.</p>
+</section>
+<section aria-labelledby="reference-title" class="section" id="reference"><h2 data-number="THE GUIDE / 08" id="reference-title">Reference</h2>
+<h3 id="go-deeper">Go deeper</h3>
+<div aria-label="Scrollable reference table" class="table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">topic</th>
+<th scope="col">doc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Benchmarks, community datapoints, quality measurements</td>
+<td><a href="docs/benchmarks.md">docs/benchmarks.md</a></td>
+</tr>
+<tr>
+<td>Tuning knobs, policies, the learning cache, prefetch</td>
+<td><a href="docs/tuning.md">docs/tuning.md</a></td>
+</tr>
+<tr>
+<td>Windows 11 native build (+ CUDA DLL)</td>
+<td><a href="docs/windows.md">docs/windows.md</a></td>
+</tr>
+<tr>
+<td>CUDA backend, VRAM expert tier, full residency</td>
+<td><a href="docs/cuda.md">docs/cuda.md</a></td>
+</tr>
+<tr>
+<td>Vulkan backend (any GPU: AMD via RADV, incl. cards ROCm dropped)</td>
+<td><a href="docs/vulkan.md">docs/vulkan.md</a></td>
+</tr>
+<tr>
+<td>Apple Silicon Metal backend</td>
+<td><a href="docs/metal.md">docs/metal.md</a></td>
+</tr>
+<tr>
+<td>OpenAI-compatible API, KV slots, web dashboard</td>
+<td><a href="docs/api.md">docs/api.md</a></td>
+</tr>
+<tr>
+<td>Experimental interface for embedding a segment of model layers (ABI)</td>
+<td><a href="docs/segment-runtime.md">docs/segment-runtime.md</a></td>
+</tr>
+<tr>
+<td>Experimental Edge interface for tokenization, embeddings, and the output head (ABI)</td>
+<td><a href="docs/edge-runtime.md">docs/edge-runtime.md</a></td>
+</tr>
+<tr>
+<td>Grammar-forced drafts (structured output)</td>
+<td><a href="docs/grammar-draft.md">docs/grammar-draft.md</a></td>
+</tr>
+<tr>
+<td>Environment variable inventory</td>
+<td><a href="docs/ENVIRONMENT.md">docs/ENVIRONMENT.md</a></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="repository-layout">Repository layout</h3>
+<div class="code-block"><div class="code-toolbar"><span>PROJECT STRUCTURE</span><button aria-label="Copy repository layout" class="copy-button" type="button">Copy</button></div><pre><code>Makefile                  root build/check entry point
+c/
+├── colibri.c             GLM-5.2 engine  (make glm)
+├── inkling.c             Inkling engine  (make inkling)
+├── kimi_k3.c             Kimi K3 engine  (make kimi_k3)
+├── deepseek_v4.c         DeepSeek V4 Flash engine  (make deepseek-v4)
+├── qwen38.c              Qwen3.8-Flash-Next text engine  (make qwen38)
+├── qwen36.c              Qwen3.6 engine  (make qwen36)
+├── olmoe.c               OLMoE engine  (make olmoe)
+│
+├── st.h                  safetensors index and range reads
+├── quant.h               canonical container decoders
+├── tok.h, json.h         tokenizer and JSON parser
+├── compat.h              Windows/macOS shims (POSIX names, one place)
+├── expert_store.h        streaming expert cache
+├── route_trace.h         routing telemetry and .coli_usage, engine-agnostic
+├── kv_prefix.h           KV prefix reuse across turns
+│
+├── backend_cuda.*        optional CUDA tier   (CUDA=1)
+├── backend_metal.*       optional Metal tier  (METAL=1)
+├── backend_vulkan.*      optional Vulkan tier (VULKAN=1)
+│
+├── Makefile              build and local checks
+├── coli                  user-facing CLI
+├── openai_server.py      OpenAI-compatible HTTP gateway
+├── resource_plan.py      RAM/VRAM planner behind `coli plan` and `coli doctor`
+├── tools/                offline conversion, fixtures and benchmarks
+├── scripts/              long-running conversion helpers
+└── tests/                dependency-free C and Python tests
+web/                      browser UI (pure OpenAI-API client)
+desktop/                  Tauri v2 desktop shell wrapping the web UI
+docker/                   container images
+docs/                     reference docs, experiments, media
+</code></pre></div>
+<p><strong>One C file per model family; shared headers for common work.</strong> Each engine owns its architecture. Shared pieces—file reading, weight decoding, tokenizing, and expert caching—live in headers used by multiple engines. This helps a bug fix reach every engine instead of leaving siblings behind.</p>
+<p>From the repository root, <code>make</code>, <code>make check</code>, and <code>make clean</code> forward to the engine Makefile.</p>
+<h3 id="a-small-glossary">A small glossary</h3>
+<div aria-label="Scrollable reference table" class="table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Term</th>
+<th scope="col">In simple English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inference</td>
+<td>Running a trained model to generate an answer.</td>
+</tr>
+<tr>
+<td>Weights / parameters</td>
+<td>The stored numbers that define what a model has learned.</td>
+</tr>
+<tr>
+<td>MoE / routed expert</td>
+<td>A model made of specialists; only selected specialists work on each token.</td>
+</tr>
+<tr>
+<td>Dense weights</td>
+<td>Parts of the model used regularly, rather than selected by the expert router.</td>
+</tr>
+<tr>
+<td>Quantization (int4, int8, FP8)</td>
+<td>Storing numbers in smaller formats to reduce memory and storage use, sometimes with a quality cost.</td>
+</tr>
+<tr>
+<td>Prefill</td>
+<td>Processing the prompt before generating a response.</td>
+</tr>
+<tr>
+<td>Decode</td>
+<td>Generating the response one token at a time.</td>
+</tr>
+<tr>
+<td>Residency / cache hit</td>
+<td>Data is already in fast memory, so it does not need a slow disk read.</td>
+</tr>
+<tr>
+<td>KV state</td>
+<td>Saved attention information from earlier tokens.</td>
+</tr>
+<tr>
+<td>Speculative decoding</td>
+<td>Drafting possible next tokens, then asking the main model to verify them.</td>
+</tr>
+<tr>
+<td>Backend / kernel</td>
+<td>The hardware implementation / a small compute routine it runs.</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section aria-labelledby="community-title" class="section" id="community"><h2 data-number="THE GUIDE / 09" id="community-title">Community &amp; credits</h2>
+<h3 id="help-the-project-grow">Help the project grow</h3>
+<p>Colibrì began as a one-person project on a <strong>12-core laptop with 25 GB of RAM</strong>. Its results now come from a community of real machines. If it helps you:</p>
+<ul>
+<li><a href="https://github.com/JustVugg/colibri">Star the repository</a> and share it.</li>
+<li><a href="https://github.com/JustVugg/colibri/issues">Open an issue</a> with benchmark results from your hardware. Reproducible data is especially useful.</li>
+<li><a href="https://discord.gg/RXV83nSZdk">Join Discord</a> to discuss experiments, hardware, and research.</li>
+<li>Contact the maintainer through GitHub issues to sponsor development or donate hardware.</li>
+</ul>
+<h3 id="why-colibr">Why “colibrì”?</h3>
+<p>“Colibrì” means hummingbird. A hummingbird weighs only a few grams, can hover, and visits many flowers each day. The name reflects the project's starting point: keeping a 744-billion-parameter model running on 25 GB of RAM, twelve CPU cores, and patient disk reads.</p>
+<h3 id="thanks-to-the-open-model-community">Thanks to the open-model community</h3>
+<p>The engine depends on models released openly. The README thanks <strong>Z.ai</strong> (GLM), <strong>Moonshot AI</strong> (Kimi), <strong>Alibaba Qwen</strong>, <strong>MiniMax</strong>, and <strong>Allen AI</strong> (OLMoE), plus everyone who benchmarked, tracked down bugs, repeated an atlas experiment, or contributed a patch.</p>
+<h3 id="research-that-shaped-the-project">Research that shaped the project</h3>
+<ul>
+<li><a href="https://github.com/CerebrasResearch/reap">REAP</a> and <a href="https://github.com/RUCAIBox/EASYEP">EASY-EP</a>: measure expert importance using outputs and task domains.</li>
+<li><a href="https://github.com/JL-Cheng/SERE">SERE</a>: redirect work to similar experts. <a href="https://github.com/BUAA-OSCAR/ReMoE">ReMoE</a>: tune routing to favor experts already in cache.</li>
+<li><a href="https://github.com/UNITES-Lab/MC-SMoE">MC-SMoE</a>: use routing patterns to merge and compress experts.</li>
+<li><a href="https://github.com/inclusionAI/MoBE">MoBE</a> and <a href="https://github.com/lliai/D2MoE">D²-MoE</a>: share common expert weights and store smaller, low-rank differences.</li>
+<li><a href="https://github.com/PKU-SEC-Lab/HybriMoE">HybriMoE</a>: schedule experts across CPU and GPU. <a href="https://arxiv.org/abs/2404.05019">ScMoE</a>: overlap communication and computation. <a href="https://arxiv.org/abs/2512.03927">OD-MoE</a>: load experts on demand across machines.</li>
+<li><a href="https://github.com/vllm-project/vllm">vLLM</a>, <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a>, and <a href="https://github.com/kvcache-ai/ktransformers">kTransformers</a>: open inference and expert-offloading systems that enable repeatable comparisons.</li>
+</ul>
+<h3 id="engineering-foundations">Engineering foundations</h3>
+<p>These projects are used or reimplemented in the source tree:</p>
+<div aria-label="Scrollable reference table" class="table-wrap" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Project</th>
+<th scope="col">Its role in Colibrì</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/huggingface/safetensors">safetensors</a></td>
+<td>The model file format read by every engine in <code>c/st.h</code>, including fp8 and I64 data types.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/openai/tiktoken">tiktoken</a></td>
+<td><code>c/tok.h</code> reproduces its <code>byte_pair_encode</code>: merge the neighboring pair whose combined form has the lowest vocabulary ID. A tiktoken-derived vocabulary needs no separate merge list.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a></td>
+<td>Its GBNF grammar syntax and stack-based parser design inform <code>c/grammar.h</code>; its <code>newBufferWithBytesNoCopy</code> technique informs Metal memory residency.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm">vLLM</a></td>
+<td>A reference for exact output behavior, including where final normalization occurs relative to the language-model head.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/huggingface/transformers">transformers</a></td>
+<td>The test reference: CI compares a randomly initialized model token-for-token.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/facebookresearch/dietgpu">DietGPU</a></td>
+<td>The GPU ANS compression codec behind the experimental <code>COLI_ANS</code> expert tier.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ROCm/rocWMMA">rocWMMA</a></td>
+<td>The HIP backend maps CUDA's <code>nvcuda::wmma</code> fragment/mma_sync API to rocWMMA in <code>c/backend_gpu_compat.h</code>, so one <code>.cu</code> file can compile for both GPU vendors.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="license">License</h3>
+<p><strong>Apache 2.0 · Copyright 2026 Vincenzo Fornaro.</strong> See <a href="LICENSE">LICENSE</a>, <a href="NOTICE">NOTICE</a>, and <a href="THIRD_PARTY_NOTICES.md">third-party notices</a>. Z.ai releases GLM-5.2 weights under MIT. The engine and model weights have separate licenses.</p>
+<p>Read the original documentation in <a href="README.md">English</a>, <a href="README.zh-CN.md">简体中文</a>, <a href="README.zh-TW.md">繁體中文</a>, or <a href="README.it.md">Italiano</a>. Visit the <a href="https://justvugg.github.io/colibri">project website</a>.</p></section>
+<footer class="footer"><div class="footer-left"><img src="assets/colibri-icon.svg" alt="" width="20" height="20"><span>Tiny engine. Immense possibilities.<br>© 2026 Vincenzo Fornaro · Apache 2.0</span></div><a href="#overview" class="top-link">Back to top <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V4m-6 6 6-6 6 6"/></svg></a></footer>
+</main></div>
+<dialog class="search-dialog" id="search-dialog" aria-label="Search the guide">
+<div class="search-input-row"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><label class="live-region" for="guide-search">Search documentation</label><input type="search" id="guide-search" placeholder="Search models, commands, or ideas…" autocomplete="off" spellcheck="false" aria-controls="search-results"><button id="close-search" class="close-search" aria-label="Close search">Esc</button></div>
+<div class="search-results" id="search-results"></div><div class="search-footer"><span id="search-status" role="status"></span> <span aria-hidden="true">·</span> ↑ ↓ to explore · Enter to open · Esc to close</div>
+</dialog>
+<div id="announcement" class="live-region" role="status" aria-live="polite"></div>
+<script>(() => {
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+  const status = $('#announcement');
+  const announce = text => { status.textContent = text; };
+
+  // Local, build-free navigation. All guide text remains available without JavaScript.
+  const menuButton = $('#menu-button');
+  const sidebar = $('#sidebar');
+  const scrim = $('#menu-scrim');
+  const setMenu = open => {
+    sidebar.classList.toggle('open', open);
+    const onMobile = matchMedia('(max-width: 700px)').matches;
+    sidebar.inert = onMobile && !open;
+    $('#main').inert = onMobile && open;
+    scrim.classList.toggle('open', open);
+    menuButton.setAttribute('aria-expanded', String(open));
+    menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) $('.search-trigger').focus();
+  };
+  menuButton.addEventListener('click', () => setMenu(!sidebar.classList.contains('open')));
+  scrim.addEventListener('click', () => { setMenu(false); menuButton.focus(); });
+  $$('.sidebar a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+  const mobile = matchMedia('(max-width: 700px)');
+  setMenu(false);
+  mobile.addEventListener('change', () => setMenu(false));
+
+  const navLinks = $$('.nav-link');
+  const sections = navLinks.map(link => $(link.getAttribute('href'))).filter(Boolean);
+  const progress = $('#scroll-progress');
+  let scrollScheduled = false;
+  function updateNavigation() {
+    let current = sections[0];
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top <= 150) current = section;
+    }
+    navLinks.forEach(link => {
+      const active = link.hash === '#' + current.id;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+    const available = document.documentElement.scrollHeight - innerHeight;
+    const ratio = available > 0 ? Math.min(1, scrollY / available) : 0;
+    progress.style.width = ((innerWidth - (mobile.matches ? 0 : sidebar.offsetWidth)) * ratio) + 'px';
+    scrollScheduled = false;
+  }
+  addEventListener('scroll', () => {
+    if (!scrollScheduled) { requestAnimationFrame(updateNavigation); scrollScheduled = true; }
+  }, {passive: true});
+  addEventListener('resize', updateNavigation);
+  updateNavigation();
+
+  // Screenshot tabs support the standard arrow / Home / End keyboard pattern.
+  const tabs = $$('[role="tab"]');
+  const panels = $$('[role="tabpanel"]');
+  function selectTab(index, focus = false) {
+    tabs.forEach((tab, i) => {
+      tab.setAttribute('aria-selected', String(i === index));
+      tab.tabIndex = i === index ? 0 : -1;
+      panels[i].hidden = i !== index;
+    });
+    if (focus) tabs[index].focus();
+  }
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => selectTab(i));
+    tab.addEventListener('keydown', event => {
+      const next = {ArrowRight:(i + 1) % tabs.length, ArrowLeft:(i - 1 + tabs.length) % tabs.length, Home:0, End:tabs.length - 1}[event.key];
+      if (next !== undefined) { event.preventDefault(); selectTab(next, true); }
+    });
+  });
+  selectTab(0);
+
+  // Clipboard API on HTTPS; selection-based fallback when opening index.html directly.
+  async function copyText(text) {
+    try {
+      if (!navigator.clipboard) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(text);
+    } catch (_) {
+      const input = document.createElement('textarea');
+      input.value = text;
+      input.style.cssText = 'position:fixed;left:-9999px;top:0';
+      document.body.append(input);
+      input.select();
+      const copied = document.execCommand('copy');
+      input.remove();
+      if (!copied) throw new Error('Copy not permitted');
+    }
+  }
+  $$('.copy-button').forEach(button => button.addEventListener('click', async () => {
+    const text = $('pre code', button.closest('.code-block')).textContent;
+    try {
+      await copyText(text);
+      button.textContent = 'Copied ✓';
+      announce('Command copied to clipboard.');
+    } catch (_) {
+      button.textContent = 'Select to copy';
+      const range = document.createRange();
+      range.selectNodeContents($('pre code', button.closest('.code-block')));
+      const selection = window.getSelection();
+      selection.removeAllRanges(); selection.addRange(range);
+      announce('Clipboard is unavailable. The command is selected; press Control C or Command C to copy.');
+    }
+    setTimeout(() => { button.textContent = 'Copy'; }, 2200);
+  }));
+
+  // Search is entirely local: no service, analytics, or network calls.
+  const dialog = $('#search-dialog');
+  const input = $('#guide-search');
+  const results = $('#search-results');
+  const resultStatus = $('#search-status');
+  const records = $$('main h2, main h3').map(heading => {
+    let node = heading.nextElementSibling;
+    let body = '';
+    while (node && !/^H[23]$/.test(node.tagName)) {
+      body += ' ' + node.textContent;
+      node = node.nextElementSibling;
+    }
+    return {id:heading.id, title:heading.textContent, body:body.replace(/\s+/g,' ').trim()};
+  }).filter(record => record.id);
+  let opener;
+  function renderSearch() {
+    const query = input.value.trim().toLowerCase();
+    const terms = query.split(/\s+/).filter(Boolean);
+    const matches = records.filter(record => terms.every(term => (record.title + ' ' + record.body).toLowerCase().includes(term)))
+      .sort((a, b) => Number(b.title.toLowerCase().includes(query)) - Number(a.title.toLowerCase().includes(query))).slice(0, 14);
+    results.replaceChildren();
+    if (!matches.length) {
+      const empty = document.createElement('p');
+      empty.className = 'search-empty';
+      empty.textContent = 'No matching sections. Try “RAM”, “Windows”, or “model”.';
+      results.append(empty);
+    }
+    for (const record of matches) {
+      const link = document.createElement('a');
+      link.className = 'search-result'; link.href = '#' + record.id;
+      const title = document.createElement('strong'); title.textContent = record.title;
+      const excerpt = document.createElement('span');
+      const position = query ? record.body.toLowerCase().indexOf(terms[0]) : 0;
+      const start = Math.max(0, position - 45);
+      excerpt.textContent = (start ? '…' : '') + record.body.slice(start, start + 150);
+      link.append(title, excerpt);
+      link.addEventListener('click', () => {
+        dialog.close(); setMenu(false);
+        const target = document.getElementById(record.id);
+        target.tabIndex = -1;
+        requestAnimationFrame(() => target.focus({preventScroll:true}));
+      });
+      results.append(link);
+    }
+    resultStatus.textContent = matches.length + (matches.length === 1 ? ' matching section' : ' matching sections') + (matches.length === 14 ? ' shown' : '');
+  }
+  function openSearch() {
+    opener = document.activeElement;
+    dialog.showModal(); renderSearch(); input.focus();
+  }
+  $$('.search-trigger').forEach(button => button.addEventListener('click', openSearch));
+  $('#close-search').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', event => {
+    if (event.target === dialog) {
+      const rect = dialog.getBoundingClientRect();
+      if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
+    }
+  });
+  dialog.addEventListener('close', () => { if (opener) opener.focus(); });
+  input.addEventListener('input', renderSearch);
+  input.addEventListener('keydown', event => {
+    if (event.key === 'ArrowDown') { event.preventDefault(); $('.search-result', results)?.focus(); }
+    if (event.key === 'Enter') $('.search-result', results)?.click();
+  });
+  results.addEventListener('keydown', event => {
+    const links = $$('.search-result', results);
+    const index = links.indexOf(document.activeElement);
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      const next = index + (event.key === 'ArrowDown' ? 1 : -1);
+      if (next < 0) input.focus(); else links[Math.min(next, links.length - 1)]?.focus();
+    }
+  });
+  document.addEventListener('keydown', event => {
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault(); if (!dialog.open) openSearch(); else dialog.close();
+    }
+    if (event.key === 'Escape') {
+      if (dialog.open) {
+        event.preventDefault();
+        dialog.close();
+      } else if (sidebar.classList.contains('open')) {
+        setMenu(false); menuButton.focus();
+      }
+    }
+  });
+})();
+</script>
+</body></html>
